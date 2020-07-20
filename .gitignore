@@ -1,1 +1,4 @@
 *.json
+.env
+.gitattributes
+db.sqlite3

@@ -1,10 +1,18 @@
+#pylint: disable=W1401
+
 import subprocess 
 import re
 import json
+import os
 from datetime import timedelta, datetime
 
-ID_DEVICES = json.load("searchList.json")
 DELAY = timedelta(hours=2)
+
+
+if not os.path.isfile("searchList.json"):
+    open("searchList.jso", "w").close()
+ID_DEVICES = json.load("searchList.json")
+
 
 class Device():
     def __init__(self, name, mac=None, ip=None):
@@ -38,8 +46,8 @@ def lookup(lines):
     current_time = datetime.now()
     id_addrs = []
     for line in lines:
-        patternI = "("+"\d*\."*3+"\d*)"
-        patternM = "(..-..-..-..-..-..)"
+        patternI = r"("+"\d*\."*3+"\d*)"
+        patternM = r"(..-..-..-..-..-..)"
         rI = re.search(patternI, line)
         rM = re.search(patternM, line)
         id_addrs.append([rM.group(1), rI.group(1)])
