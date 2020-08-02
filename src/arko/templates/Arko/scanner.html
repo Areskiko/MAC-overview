@@ -1,0 +1,90 @@
+{% extends "Arko/shell.html" %}
+{% block content %}
+    <h1>Scanner</h1>
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s6">
+                    <a href="#tracked" class="blue-grey darken-3 grey-text text-lighten-2">Tracked</a>
+                </li>
+                <li class="tab col s6">
+                    <a href="#track-new" class="blue-grey darken-3 grey-text text-lighten-2">Track New</a>
+                </li>
+            </ul>
+            <div class="col s12" id="tracked">
+            </div>
+            <div class="col s12" id="track-new">
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    
+    <script>
+
+        //Name is not being applied during manual testing, no values are being applied automatically
+        $(document).ready(function(){
+            $(".tabs").tabs();
+            $('#tracked').load('/tracked');
+            holders = document.getElementsByClassName("tormHolder");
+                for (const holder of holders) {
+                    var name = holder.getElementsByTagName("input")[1];
+                    var mac = holder.getElementsByTagName("input")[2];
+                    var ip = holder.getElementsByTagName("input")[3];
+                    mac.value= holder.getAttribute("mac");
+                    ip.value = holder.getAttribute("ip");
+                    name.value = holder.getAttribute("devname");
+                }
+        })
+        //$('#tracked').load('/tracked');
+            $.ajaxSetup({ cache: false }); // This part addresses an IE bug.  without it, IE will only load the first number and will never refresh
+            var my_refresht = setInterval(function() {
+                $('#tracked').load('/tracked');
+            }, 1000*30); //every 30 seconds
+            $('#track-new').load('/untracked');
+            $.ajaxSetup({ cache: false }); // This part addresses an IE bug.  without it, IE will only load the first number and will never refresh
+            var my_refresh = setInterval(function() {
+                $('#track-new').load('/untracked');
+            }, 1000*60); //every minute
+        var intervalID = setInterval(function(){
+            holders = document.getElementsByClassName("uormHolder");
+            for (const holder of holders) {
+                var inp = holder.getElementsByTagName("input")[1];
+                var btn = holder.getElementsByTagName("button")[0];
+                var btnSend = holder.getElementsByTagName("button")[1];
+                if (inp.value.length > 0 && !inp.classList.contains("scale-out")) {
+                    btn.innerHTML='<i class="material-icons">check</i>'
+                    if (btnSend.classList.contains("scale-out")) {
+                        btnSend.classList.remove("scale-out");
+                    }
+                } else if(!inp.classList.contains("scale-out") && inp.value.length == 0) {
+                    btn.innerHTML='<i class="material-icons">close</i>'
+                    if (!btnSend.classList.contains("scale-out")){
+                        btnSend.classList.add("scale-out");
+                    }
+                }
+            }
+        }, 500)
+        
+        function hideShow(holderId) {
+            var holder = document.getElementById(holderId);
+            var elem = holder.getElementsByTagName("input")[1];
+            var btn = holder.getElementsByTagName("button")[0];
+                var btnSend = holder.getElementsByTagName("button")[1];
+            if (elem.classList.contains("scale-out")) {
+                elem.classList.remove("scale-out");
+                btn.innerHTML='<i class="material-icons">close</i>'
+            } else if(!elem.classList.contains("scale-out") && elem.value.length > 0) {
+                console.log("No need")
+            } else {
+                btn.innerHTML='<i class="material-icons">add</i>'
+                elem.classList.add("scale-out");
+            }
+        }
+        
+                    
+    </script>
+{% endblock content %}

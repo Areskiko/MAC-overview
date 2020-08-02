@@ -1,0 +1,21 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.tabs .indicator {
+    background-color: #78909c;
+}
+
+.page-footer {
+    background-color: #37474f;
+}
+
+input {
+    color: #e0e0e0;
+}

@@ -19,6 +19,6 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('scan/', include("scanner.urls")),
+    path('', include("arko.urls")),
 
 ]

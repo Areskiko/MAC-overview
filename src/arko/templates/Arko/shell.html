@@ -1,0 +1,73 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% if title %}
+    <title>Arko - {{ title }}</title>
+    {% else %}
+    <title>Arko</title>
+    {% endif %}
+    
+    <!-- materialize icons, css & js -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- personal css & js -->
+    <link type="text/css" href="{% static 'scanner/styles.css' %}" rel="stylesheet">
+
+    <!-- iOS being kinda dumb -->
+    <!--<script async src="https://unpkg.com/pwacompat" crossorigin="anonymous"></script>-->
+</head>
+
+
+
+<body class="grey darken-3 grey-text text-lighten-2">
+  <main>
+    <nav class="z-depth-5">
+        <div class="nav-wrapper blue-grey darken-3">
+          <a href="{% url 'Arko-home' %}" class="brand-logo" style="padding-left: 0.5rem;"><i class="large material-icons">filter_tilt_shift</i>Arko</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="{% url 'Arko-home' %}">Home</a></li>
+            <li><a href="{% url 'Arko-scanner' %}">Scanner</a></li>
+          </ul>
+        </div>
+      </nav>
+    <div class="container center-align">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="contrainer center-align flow-text truncate">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+    </div>
+  </main>
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="grey-text text-lighten-2">Arko</h5>
+            <p class="grey-text text-lighten-2">Made by Areskiko.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="grey-text text-lighten-2">Links</h5>
+            <ul>
+              <li><a class="" href="https://github.com/Areskiko ">Github</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright grey-text text-lighten-2">
+        <div class="container grey-text text-lighten-2">
+        Released under GNU General Puplic License v3.0
+        <a class="" href="https://github.com/Areskiko/Arko/blob/master/LICENSE">Details</a>
+        </div>
+      </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,33 @@
+
+                <table>
+                    <thead>
+                      <tr>
+                          <th>Mac</th>
+                          <th>Ip</th>
+                          <th></th>
+                      </tr>
+                    </thead>
+            
+                    <tbody>
+                {% for zip in zipped %}
+                <tr>
+                    <td>{{ zip.0.0 }} </td>
+                    <td>{{ zip.0.1 }}</td>
+                    <td>
+                        <div class="uormHolder" id="{{ zip.0.0 }}" mac="{{ zip.0.0 }}" ip="{{ zip.0.1 }}">
+                            <form method="POST" id="form-{{ zip.0.0 }}">
+                                {% csrf_token %}
+                                {% for field in zip.1 %}
+                                    {{ field }}
+                                {% endfor %}
+                                
+                            <button type="button" id="id_btn" onclick="hideShow('{{ zip.0.0 }}')" class="btn-floating btn waves-effect waves-light blue-grey darken-3 hoverable"><i class="material-icons">add</i></button>
+                            <button type="submit" id="id_sendBtn" value="Submit" class="btn-floating btn waves-effect waves-light blue-grey darken-3 hoverable scale-transition scale-out"><i class="material-icons">search</i></button></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                
+                {% endfor %}
+                </tbody>
+                </table>

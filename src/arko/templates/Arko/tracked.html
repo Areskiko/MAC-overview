@@ -1,0 +1,42 @@
+<h3>Time: {{today|date:"l j F Y h:i"}}</h3>
+<table>
+    <thead>
+      <tr>
+            <th>Name</th>
+            <th>Mac</th>
+            <th>Ip</th>
+            <th>Status</th>
+            <th>Last Seen</th>
+            <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+        {% for zip in zipped %}
+        <tr>
+            <td>{{zip.0.name}}</td>
+            <td>{{zip.0.mac}}</td>
+            <td>{{zip.0.ip}}</td>
+            <td>
+                {{ zip.0.seenAgo }}
+            </td>
+            <td>
+                {{ zip.0.lastSeen|date:"D j b Y h:i" }}
+            </td>
+            <td>
+                <div class="tormHolder" id="{{ zip.0.mac }}" mac="{{ zip.0.mac }}" ip="{{ zip.0.ip }}" devname="{{ zip.0.name }}">
+                    <form method="POST" action="removeTracked">
+                        {% csrf_token %}
+                        {% for field in zip.1 %}
+                            {{ field }}
+                        {% endfor %}
+                        <button type="submit" id="id_sendBtn" style="display: inline;" value="Submit" class="btn-floating btn waves-effect waves-light blue-grey darken-3 hoverable"><i class="material-icons">close</i></button></button>
+                    </form>
+                </div>
+            
+            
+            </td>
+        </tr>
+        {% endfor %}
+</tbody>
+</table>

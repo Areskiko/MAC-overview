@@ -2,32 +2,11 @@
 
 import subprocess 
 import re
-import json
-import os
-from datetime import timedelta, datetime
 
-DELAY = timedelta(hours=2)
-
-
-if not os.path.isfile("searchList.json"):
-    open("searchList.jso", "w").close()
-ID_DEVICES = json.load("searchList.json")
-
-
-class Device():
-    def __init__(self, name, mac=None, ip=None):
-        assert not (mac==None and ip==None)
-        self.name = name
-        self.mac = mac
-        self.ip = ip
-        self.last_seen = datetime.fromtimestamp(0)
-
-Devices = [Device(name, ID_DEVICES[name]["mac"], ID_DEVICES[name]["ip"]) for name in ID_DEVICES]
-
-def success(name):
-    print(name)
-
-def scan():
+def scan(cahceClear = None):
+    if cahceClear:
+        for entry in cahceClear:
+            subprocess.Popen(["ping", "-n", "1", entry], stdout=subprocess.PIPE)
     proc = subprocess.Popen(["arp", "-a"],stdout=subprocess.PIPE)
     lines = []
     while True:
@@ -43,7 +22,6 @@ def scan():
     return lines
 
 def lookup(lines):
-    current_time = datetime.now()
     id_addrs = []
     for line in lines:
         patternI = r"("+"\d*\."*3+"\d*)"
@@ -51,24 +29,13 @@ def lookup(lines):
         rI = re.search(patternI, line)
         rM = re.search(patternM, line)
         id_addrs.append([rM.group(1), rI.group(1)])
-    for device in Devices:
-        if device.mac:
-            for _id in id_addrs:
-                if device.mac == _id[0]:
-                    device.ip = _id[1]
-                    if current_time > device.last_seen + DELAY:
-                        success
-                    device.last_seen = current_time
-        else:   #Fill inn mac address
-            for _id in id_addrs:
-                if device.ip == _id[1]:
-                    device.mac = _id[0]
-                    if current_time > device.last_seen + DELAY:
-                        success
-                    device.last_seen = current_time
+    return id_addrs
 
-
-
+def update(macDevices, ipDevices):
+    addrs = lookup(scan(ipDevices))
+    macs = [addr[0] for addr in addrs]
+    ips = [addr[1] for addr in addrs]
+    return [device for device in macDevices if device in macs], macs, ips
 
 
     
